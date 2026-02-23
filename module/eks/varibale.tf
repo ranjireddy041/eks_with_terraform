@@ -18,15 +18,25 @@ variable "role_arn" {
   type = string
 }
 
-variable "node_group" {
-  description = "eks node group configuration"
-  type =map(object({
-    instance_type   = string
-    capacity_type   = string
-    scaling_config = object({
-    desired_capacity = number
-    min_size       = number
-    max_size       = number
-  }) 
-  }))
+variable "node_group_name" {
+ type = string
+}
+
+variable "instance_type" {
+  type = string
+}
+variable "capacity_type" {
+  type = string
+}
+variable "desired_capacity" {
+  type = string
+  
+}
+variable "min_size" {
+  type = string
+  
+}
+variable "max_size" {
+  type = string
+  
 }

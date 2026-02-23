@@ -14,16 +14,17 @@ resource "aws_eks_cluster" "B12-cluster" {
 
 resource "aws_eks_node_group" "node_group" {
   cluster_name = var.cluster_name
-  node_group_name = var.node_group.node_group_name
+  node_group_name = var.node_group_name
   subnet_ids = var.subnet_ids
   node_role_arn = var.role_arn
-  instance_types = var.node_group.instance_types
-  capacity_type = var.node_group.capacity_type
+  capacity_type = var.capacity_type
     scaling_config {
-    desired_size = var.node_group.scaling_config.desired_size
-    max_size = var.node_group.scaling_config.max_size
-    min_size = var.node_group.scaling_config.min_size
+    desired_size = var.desired_capacity
+    max_size = var.max_size
+    min_size = var.min_size
   } 
+  instance_types = [var.instance_type]
+  depends_on = [aws_eks_cluster.B12-cluster]
 }
 
 

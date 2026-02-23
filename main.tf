@@ -38,33 +38,27 @@ resource "aws_iam_role_policy_attachment" "example-AmazonEC2ContainerRegistryRea
 
 module "vpc" {
   source = "./module/vpc"
+  cluster_name = var.cluster_name
   cidr_block = var.cidr_block
   availability_zones = var.availability_zones
-  public_subnet_cidr = var.public_subnet_cidr
   private_subnet_cidr = var.private_subnet_cidr
-  cluster_name = var.cluster_name
-  
-  
+  public_subnet_cidr = var.public_subnet_cidr
+
+
 }
 
 module "eks" {
   source = "./module/eks"
+  vpc_id = module.vpc.vpc_id
   cluster_name = var.cluster_name
   cluster_version = var.cluster_version
+  role_arn = aws_iam_role.eks_cluster_role.arn
   subnet_ids = module.vpc.private_subnet_ids
-  role_arn = var.role_arn
-  vpc_id = module.vpc.vpc_id
-  node_group = {
-    default = {
-      instance_type = var.instance_type
-      capacity_type = var.capacity_type
-      scaling_config = {
-        desired_capacity = var.desired_capacity
-        min_size = var.min_size
-        max_size = var.max_size
-      }
-    }
-  }
-
-
+  node_group_name = "${var.cluster_name}-node-group"
+  instance_type = var.instance_type
+  capacity_type = var.capacity_type
+  desired_capacity = var.desired_capacity
+  min_size = var.min_size
+  max_size = var.max_size
+  
 }

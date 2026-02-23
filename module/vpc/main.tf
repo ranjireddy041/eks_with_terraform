@@ -35,12 +35,12 @@ resource "aws_security_group" "eks_cluster_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-resource "aws_vpc" "eks_vpc" {
+resource "aws_vpc" "this" {
   cidr_block = var.cidr_block   
 }
 resource "aws_subnet" "public" {
   count = length(var.public_subnet_cidr)
-  vpc_id = aws_vpc.eks_vpc.id
+  vpc_id = aws_vpc.this.id
   cidr_block = var.public_subnet_cidr[count.index]
   availability_zone = var.availability_zones[count.index]
 
