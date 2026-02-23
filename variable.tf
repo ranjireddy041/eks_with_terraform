@@ -14,6 +14,9 @@ variable "AWS_SECRET_ACCESS_KEY" {
 variable "cidr_block" {
   default = "10.81.0.0/16"
 }
+variable "vpc_id" {
+  default = "${cidr_block}"
+}
 variable "availability_zones" {
   description = "availability zones"
   type        = list(string)
@@ -38,26 +41,26 @@ variable "cluster_version" {
   type = string
   default = "1.30"
 }
+
 variable "node_group" {
-  description = "eks node group configuration"
-  type =map(object({
-    instance_type   = list(string)
-    capacity_type   = string
-    scaling_config = object({
-    desired_capacity = number
-    min_size       = number
-    max_size       = number
-  }) 
-  }))
-  default = {
-    "general" = {
-      instance_type = ["m7i-flex.large"]
-      capacity_type = "ON_DEMAND"
-      scaling_config = {
-        desired_capacity = 2
-        min_size       = 1
-        max_size       = 3
-      }
-    }
-  } 
+  type = string
+  
+}
+variable "instance_type" {
+  default = "t3.medium"
+}
+variable "capacity_type" {
+  default = "ON_DEMAND"
+}
+variable "desired_capacity" {
+  default = "2"
+}
+variable "min_size" {
+  default = "1"
+}
+variable "max_size" {
+  default = "3"
+}
+variable "role_arn" {
+  default = "aws_iam_role.eks_cluster_role.arn"
 }
