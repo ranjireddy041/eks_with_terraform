@@ -13,9 +13,6 @@ variable "vpc_id" {
 variable "subnet_ids" {
   type = list(string)
 }
-variable "node_group" {
-  type = string
-}
 
 variable "role_arn" {
   type = string
@@ -24,7 +21,7 @@ variable "role_arn" {
 variable "node_group" {
   description = "eks node group configuration"
   type =map(object({
-    instance_type   = list(string)
+    instance_type   = string
     capacity_type   = string
     scaling_config = object({
     desired_capacity = number
