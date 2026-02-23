@@ -1,12 +1,12 @@
-resource "aws_vpc" "vpc" {
+resource "aws_vpc" "eks_vpc" {
   cidr_block = var.cidr_block
-    tags = {
-        Name = "${var.cluster_name}-vpc"
-    }       
+  tags = {
+    Name = "${var.cluster_name}-vpc"
+  }    
 }
 resource "aws_subnet" "public" {
   count = length(var.public_subnet_cidr)
-  vpc_id = aws_vpc.vpc.id
+  vpc_id = 
   cidr_block = var.public_subnet_cidr[count.index]
   availability_zone = var.availability_zones[count.index]
 
