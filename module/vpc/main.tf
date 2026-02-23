@@ -1,7 +1,7 @@
 resource "aws_security_group" "eks_cluster_sg" {
   name        = "${var.cluster_name}-eks-sg"
   description = "Security group for EKS cluster"
-  vpc_id      = aws_vpc.eks_vpc.id
+  vpc_id      = aws_vpc.this.id
 
   ingress {
     from_port   = 443
@@ -50,7 +50,7 @@ resource "aws_subnet" "public" {
 }
 resource "aws_subnet" "private" {
   count = length(var.private_subnet_cidr)
-  vpc_id = aws_vpc.eks_vpc.id
+  vpc_id = aws_vpc.this.id
   cidr_block = var.private_subnet_cidr[count.index]
   availability_zone = var.availability_zones[count.index]
 
