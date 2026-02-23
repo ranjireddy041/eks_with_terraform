@@ -39,11 +39,6 @@ variable "cluster_version" {
   type = string
   default = "1.30"
 }
-
-variable "node_group" {
-  type = string
-  
-}
 variable "instance_type" {
   default = "t3.medium"
 }
