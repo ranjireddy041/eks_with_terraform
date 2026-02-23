@@ -43,6 +43,7 @@ module "vpc" {
   public_subnet_cidr = ["10.81.1.0/24", "10.81.2.0/24", "10.81.3.0/24"] 
   private_subnet_cidr = ["10.81.4.0/24", "10.81.5.0/24", "10.81.6.0/24"] 
   cluster_name = var.cluster_name
+  vpc_id = module.vpc.vpc_id
 }
 
 module "eks" {
