@@ -36,10 +36,7 @@ resource "aws_security_group" "eks_cluster_sg" {
   }
 }
 resource "aws_vpc" "eks_vpc" {
-  cidr_block = var.cidr_block
-  tags = {
-    Name = "${var.cluster_name}-vpc"
-  }    
+  cidr_block = var.cidr_block   
 }
 resource "aws_subnet" "public" {
   count = length(var.public_subnet_cidr)
