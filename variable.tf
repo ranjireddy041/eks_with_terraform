@@ -14,9 +14,7 @@ variable "AWS_SECRET_ACCESS_KEY" {
 variable "cidr_block" {
   default = "10.81.0.0/16"
 }
-variable "vpc_id" {
-  default = "${cidr_block}"
-}
+
 variable "availability_zones" {
   description = "availability zones"
   type        = list(string)
