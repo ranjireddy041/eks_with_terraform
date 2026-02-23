@@ -38,10 +38,10 @@ resource "aws_iam_role_policy_attachment" "example-AmazonEC2ContainerRegistryRea
 
 module "vpc" {
   source = "./module/vpc"
-  cidr_block = "10.81.0.0/16"
-  availability_zones = ["us-east-1a", "us-east-1b", "us-east-1c"]
-  public_subnet_cidr = ["10.81.1.0/24", "10.81.2.0/24", "10.81.3.0/24"] 
-  private_subnet_cidr = ["10.81.4.0/24", "10.81.5.0/24", "10.81.6.0/24"] 
+  cidr_block = var.cidr_block
+  availability_zones = var.availability_zones
+  public_subnet_cidr = var.public_subnet_cidr
+  private_subnet_cidr = var.private_subnet_cidr
   cluster_name = var.cluster_name
   vpc_id = aws_vpc.eks_vpc.id
   
