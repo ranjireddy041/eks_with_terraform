@@ -13,9 +13,6 @@ variable "vpc_id" {
 variable "subnet_ids" {
   type = list(string)
 }
-variable "node_group" {
-  type = string
-}
 
 variable "role_arn" {
   type = string
