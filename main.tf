@@ -43,7 +43,7 @@ module "vpc" {
   public_subnet_cidr = var.public_subnet_cidr
   private_subnet_cidr = var.private_subnet_cidr
   cluster_name = var.cluster_name
-  vpc_id = aws_vpc.eks_vpc.id
+  vpc_id = module.vpc.vpc_id
   
   
 }
