@@ -52,7 +52,17 @@ module "eks" {
   subnet_ids = module.vpc.private_subnet_ids
   role_arn = var.role_arn
   vpc_id = module.vpc.vpc_id
-  node_group = values(var.node_group)
+  node_group = {
+    default = {
+      instance_type = var.instance_type
+      capacity_type = var.capacity_type
+      scaling_config = {
+        desired_capacity = var.desired_capacity
+        min_size = var.min_size
+        max_size = var.max_size
+      }
+    }
+  }
 
 
 }
