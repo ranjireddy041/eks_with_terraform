@@ -54,6 +54,4 @@ variable "min_size" {
 variable "max_size" {
   default = "3"
 }
-variable "role_arn" {
-  default = "aws_iam_role.eks_cluster_role.arn"
-}
+

@@ -73,7 +73,7 @@ module "eks" {
   vpc_id = module.vpc.vpc_id
   cluster_name = var.cluster_name
   cluster_version = var.cluster_version
-  role_arn = var.role_arn
+  role_arn = aws_iam_role.eks_cluster_role.arn
   node_role_arn = aws_iam_role.eks_node_role.arn
   subnet_ids = module.vpc.private_subnet_ids
   node_group_name = "${var.cluster_name}-node-group"
