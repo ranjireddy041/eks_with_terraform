@@ -52,6 +52,7 @@ resource "aws_route_table" "private_Rt" {
 
 resource "aws_route_table" "public_Rt" {
   vpc_id = aws_vpc.this.id 
+  
 
   tags = {
     Name = "${var.cluster_name}-public-rt"
@@ -61,7 +62,12 @@ resource "aws_route_table" "public_Rt" {
 resource "aws_route" "private_nat_route" {
   route_table_id         = aws_route_table.private_Rt.id
   destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id = aws_nat_gateway.eks-NG.id
+  nat_gateway_id = aws_nat_gateway.eks_NG.id
+}
+resource "aws_route_table_association" "public_assoc" {
+  count          = length(var.public_subnet_cidr)
+  subnet_id      = aws_subnet.public[count.index].id
+  route_table_id = aws_route_table.public_Rt.id
 }
 
 resource "aws_route_table_association" "private_assoc" {
@@ -83,10 +89,10 @@ resource "aws_internet_gateway" "eks-igw" {
     Name = "${var.cluster_name}-internet-gateway"
   }
 }
-resource "aws_nat_gateway" "eks-NG" {
+resource "aws_nat_gateway" "eks_NG" {
   allocation_id = aws_eip.eks_cluster_eip.id
-  subnet_id = aws_subnet.public_subnet[0].id
-
+  subnet_id = aws_subnet.public[0].id
+  
   tags = {
     Name = "${var.cluster_name}-nat-gateway"
 }
@@ -96,11 +102,15 @@ resource "aws_nat_gateway" "eks-NG" {
 resource "aws_subnet" "public" {
   count = length(var.public_subnet_cidr)
   vpc_id = aws_vpc.this.id
+  
   cidr_block = var.public_subnet_cidr[count.index]
   availability_zone = var.availability_zones[count.index]
+  map_public_ip_on_launch = true
 
     tags = {
         Name = "${var.cluster_name}-public-subnet-${count.index}"
+        "kubernetes.io/cluster/${var.cluster_name}" = "owned"
+        "kubernetes.io/role/elb" = "1"
     }
 }
 resource "aws_subnet" "private" {
@@ -111,5 +121,7 @@ resource "aws_subnet" "private" {
 
     tags = {
         Name = "${var.cluster_name}-private-subnet-${count.index}"
+        "kubernetes.io/cluster/${var.cluster_name}" = "owned"
+        "kubernetes.io/role/internal-elb" = "1"
     }
 }
